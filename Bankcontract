@@ -1,0 +1,30 @@
+pragma solidity ^0.8.0;
+
+contract bank{
+    address public Acctholder;
+    uint256 balance=0;
+
+    constructor(){
+        Acctholder=msg.sender;
+    }
+
+    function withdraw() payable public{
+        require(msg.sender==Acctholder,"you are not the accout holder");
+        require(balance > 0,"balance is insufficient");
+        payable(msg.sender).transfer(balance);
+        balance=0;
+    }
+
+    function deposit() payable public{
+        require(msg.sender==Acctholder,"you are not the accout holder");
+        require(msg.value > 0,"should be greater than 0");
+        balance +=msg.value;
+    }
+
+    function showBalance()public view returns(uint){
+        require(msg.sender==Acctholder,"you are not the accout holder");
+        return balance;
+    }
+
+}
+
